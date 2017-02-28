@@ -1,0 +1,19 @@
+version: '2'
+services:
+  nginx:
+    image: shippingdocker/nginx:latest
+    ports:
+    - 80:80
+    volumes:
+    - ./src:/var/www/html
+    networks:
+    - appnet
+  php:
+    image: php:7.0-fpm
+    volumes:
+    - ./src:/var/www/html
+    networks:
+    - appnet
+networks:
+  appnet:
+    driver: "bridge"
