@@ -38,6 +38,60 @@
 
     scene.add(line);
     renderer.render(scene, camera);
+
+    var step_rate = 1;
+    var animationSteps = {
+        1: {
+            x:-20, y:0
+        },
+        2: {
+            x:0, y:20
+        },
+        3: {
+            x:20, y:0
+        },
+        4: {
+            x:6, y:0
+        },
+        5: {
+            x:6, y:-20
+        },
+        6: {
+            x:-6, y:-20
+        },
+        7: {
+            x:-6, y:0
+        },
+        8: {
+            x:-20, y:0
+        }
+    };
+
+    var frame = 0;
+    var step = 0;
+
+    function render()
+    {
+        frame = (frame == 60) ? 1 : frame + 1;
+        percent = frame/60;
+        time = frame/60;
+
+        //modulo operation
+        if(time % 1 == 0)
+        {
+            step++;
+            if(typeof animationSteps[step] !== 'undefined' )
+            {
+                console.log('we are at step ' + step);
+            }
+
+        }
+
+        requestAnimationFrame(render);
+    }
+    render();
+
+
 </script>
 </body>
 </html>
