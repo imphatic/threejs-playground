@@ -67,6 +67,15 @@
         }
     };
 
+    function setAnimation(step, percent)
+    {
+        // Create starting point
+
+        // Animate to next steps point
+
+        // If last point then stop or restart
+    }
+
     var frame = 0;
     var step = 0;
 
@@ -80,11 +89,11 @@
         if(time % 1 == 0)
         {
             step++;
-            if(typeof animationSteps[step] !== 'undefined' )
-            {
-                console.log('we are at step ' + step);
-            }
+        }
 
+        if(typeof animationSteps[step] !== 'undefined' )
+        {
+            setAnimation(step, percent);
         }
 
         requestAnimationFrame(render);
