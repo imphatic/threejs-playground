@@ -39,35 +39,39 @@
         renderer.setSize(WIDTH, HEIGHT);
     }
 
+    var light = null;
     function initLights() {
-        var light = new THREE.AmbientLight(0xffffff);
+        light = new THREE.AmbientLight(0xffffff, 50);
         scene.add(light);
     }
 
-    var mesh = null;
+    var meshTree = null;
     function initMesh() {
         var loader = new THREE.JSONLoader();
-        loader.load('objects/cube.json', function(geometry, materials) {
-            mesh = new THREE.Mesh(geometry, new THREE.MultiMaterial(materials));
-            mesh.scale.x = mesh.scale.y = mesh.scale.z = 0.75;
-            mesh.translation = geometry.center();
-            scene.add(mesh);
+        loader.load('objects/tree.json', function(geometry, materials) {
+            meshTree = new THREE.Mesh(geometry, new THREE.MultiMaterial(materials));
+            meshTree.scale.x = meshTree.scale.y = meshTree.scale.z = 4;
+            meshTree.translation = geometry.center();
+            scene.add(meshTree);
         });
     }
 
-    function rotateMesh() {
-        if (!mesh) {
-            return;
-        }
+    function animateTree()
+    {
+        meshTree.rotation.y += 0.01;
+    }
 
-        mesh.rotation.x -= SPEED * 2;
-        mesh.rotation.y -= SPEED;
-        mesh.rotation.z -= SPEED * 3;
+    function animateLight()
+    {
+        light.rotation.y += 0.01;
     }
 
     function render() {
         requestAnimationFrame(render);
-        rotateMesh();
+
+        animateTree();
+        animateLight();
+
         renderer.render(scene, camera);
     }
 
