@@ -1,0 +1,88 @@
+<html>
+<head>
+    <style>
+        body { margin: 0; }
+        canvas { width: 100%; height: 100% }
+    </style>
+</head>
+<body>
+<script src="js/three.js"></script>
+
+<script>
+    var page =
+    {
+        scene:null,
+        camera:null,
+        renderer:null,
+        light:null,
+        objects:{},
+
+        settings: {},
+
+        init:
+        {
+            setup:function()
+            {
+                page.scene = new THREE.Scene();
+                this.camera();
+                this.renderer();
+                this.light();
+                this.objects();
+                document.body.appendChild(page.renderer.domElement);
+                page.render();
+            },
+
+            camera:function()
+            {
+                page.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 10);
+                page.camera.position.set(0, 3.5, 5);
+                page.camera.lookAt(page.scene.position);
+            },
+
+            renderer:function()
+            {
+                page.renderer = new THREE.WebGLRenderer({ antialias: true });
+                page.renderer.setSize(window.innerWidth, window.innerHeight);
+            },
+
+            light:function()
+            {
+                page.light = new THREE.AmbientLight(0xffffff, 50);
+                page.scene.add(page.light);
+            },
+
+            objects:function()
+            {
+                var loader = new THREE.JSONLoader();
+                loader.load('objects/tree.json', function(geometry, materials) {
+                    page.objects.tree = new THREE.Mesh(geometry, new THREE.MultiMaterial(materials));
+                    page.objects.tree.scale.x = page.objects.tree.scale.y = page.objects.tree.scale.z = 4;
+                    page.objects.tree.translation = geometry.center();
+                    page.scene.add(page.objects.tree);
+                });
+            }
+        },
+
+        render:function()
+        {
+            requestAnimationFrame(page.render);
+
+            page.animate.tree();
+
+            page.renderer.render(page.scene, page.camera);
+        },
+
+        animate:
+        {
+            tree:function()
+            {
+                page.objects.tree.rotation.y += 0.01;
+            }
+        }
+    };
+
+    page.init.setup();
+    console.log(page);
+</script>
+</body>
+</html>
